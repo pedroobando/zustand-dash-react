@@ -13,8 +13,11 @@ interface Actions {
   setLastName: (value: string) => void;
 }
 
+//* Tambien se puede hacer asi.
 // type PersonStore = PersonState & Actions;
 
+//* Esto puede ir adentro solo que Fernando Herrera lo separo para verlo mejor.
+//* Y si que se entiende mejor.
 const storeApiPerson: StateCreator<PersonState & Actions, [['zustand/devtools', never]]> = (
   set
 ) => ({
@@ -29,8 +32,10 @@ export const usePersonStore = create<PersonState & Actions>()(
   devtools(
     persist(storeApiPerson, {
       name: 'person-storage',
-      // storage:customSessionStorage
-      // storage: firebaseStorage,
+      //* Esto almacena en el session Storage
+      // storage: customSessionStorage,
+      //* Esto almacena en  una base datos de firebase
+      storage: firebaseStorage,
     })
   )
 );
