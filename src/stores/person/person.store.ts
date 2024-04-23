@@ -35,7 +35,7 @@ export const usePersonStore = create<PersonState & Actions>()(
       //* Esto almacena en el session Storage
       // storage: customSessionStorage,
       //* Esto almacena en  una base datos de firebase
-      storage: firebaseStorage,
+      // storage: firebaseStorage,
     })
   )
 );
