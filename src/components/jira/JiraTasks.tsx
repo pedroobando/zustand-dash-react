@@ -21,7 +21,7 @@ export const JiraTasks = ({ title, status, tasks }: Props) => {
       onDragLeave={handleDragLeave}
       onDrop={handleDrop}
       className={classNames(
-        '!text-black border-4 relative flex flex-col rounded-[20px]  bg-white bg-clip-border shadow-3xl shadow-shadow-500  w-full !p-4 3xl:p-![18px]',
+        '!text-black border-4 relative flex flex-col rounded-[20px] bg-white bg-clip-border shadow-3xl shadow-shadow-500  w-full !p-4 3xl:p-![18px]',
         { 'border-dotted border-blue-500': isDragging },
         { 'border-dotted border-green-500': isDragging && onDragOver }
       )}

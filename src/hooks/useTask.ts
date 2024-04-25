@@ -13,6 +13,7 @@ export const useTask = ({ status }: Options) => {
   // const changeProgress = useTaskStore((state) => state.changeTaskStatus);
   const onTaskDrop = useTaskStore((state) => state.onTaskDrop);
   const addTask = useTaskStore((state) => state.addTask);
+  const deleteTask = useTaskStore((state) => state.deleteTask);
 
   const [onDragOver, setOnDragOver] = useState<boolean>(false);
 
@@ -51,10 +52,15 @@ export const useTask = ({ status }: Options) => {
     addTask(value, status);
   };
 
+  const handleDeleteTask = (taskId: string) => {
+    deleteTask(taskId);
+  };
+
   return {
     isDragging,
     onDragOver,
     handleAddTask,
+    handleDeleteTask,
     handleDragLeave,
     handleDragOver,
     handleDrop,

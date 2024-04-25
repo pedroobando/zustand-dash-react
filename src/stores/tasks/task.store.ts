@@ -16,10 +16,12 @@ interface TaskState {
 
   setDraggingTaskId: (taskId: string) => void;
   removeDraggingTaskId: () => void;
+
   changeTaskStatus: (taskId: string, status: TaskStatus) => void;
 
   onTaskDrop: (status: TaskStatus) => void;
   addTask: (title: string, status: TaskStatus) => void;
+  deleteTask: (taskId: string) => void;
 }
 
 const storeApi: StateCreator<TaskState, [['zustand/devtools', never], ['zustand/immer', never]]> = (
@@ -53,12 +55,12 @@ const storeApi: StateCreator<TaskState, [['zustand/devtools', never], ['zustand/
     const task = { ...get().tasks[taskId] };
     task.status = status;
 
-    //INFO: MODO ZUSTAND MIDDLEWARE IMMER
+    //? MODO ZUSTAND MIDDLEWARE IMMER
     set((state) => {
       state.tasks[taskId] = task;
     });
 
-    //INFO: MODO TRADICIONAL
+    //? MODO TRADICIONAL
     // set((state) => ({
     //   tasks: {
     //     ...state.tasks,
@@ -78,24 +80,45 @@ const storeApi: StateCreator<TaskState, [['zustand/devtools', never], ['zustand/
   addTask: (title: string, status: TaskStatus) => {
     const newTask: Task = { id: uuidV4(), title, status };
 
-    //INFO: Con el middleware de immer
+    //? Con el middleware de immer
     set((state) => {
       state.tasks[newTask.id] = newTask;
     });
 
-    //INFO: Esto es con el paquete de Tercero de Immer
-    // - Se realiza con el produce.
+    //? Esto es con el paquete de Tercero de Immer
+    //? Se realiza con el produce.
     // set(
     //   produce((state: TaskState) => {
     //     state.tasks[newTask.id] = newTask;
     //   })
     // );
 
-    //INFO: Forma Nativa con el ...state.tasks.
+    //? Forma Nativa de Zustand el ...state.tasks.
     // set((state) => ({
     //   tasks: {
     //     ...state.tasks,
     //     [newTask.id]: newTask,
+    //   },
+    // }));
+  },
+
+  deleteTask: (taskId: string): void => {
+    // const task = { ...get().tasks[taskId] };
+    // task.status = status;
+
+    // Object.values(tasks).filter((task) => task.status === status);
+
+    //? MODO ZUSTAND MIDDLEWARE IMMER
+    set((state) => {
+      delete state.tasks[taskId];
+      // state.tasks = { ...Object.values(get().tasks).filter((task) => task.id !== taskId) };
+    });
+
+    //? MODO TRADICIONAL
+    // set((state) => ({
+    //   tasks: {
+    //     ...state.tasks,
+    //     [taskId]: task,
     //   },
     // }));
   },
