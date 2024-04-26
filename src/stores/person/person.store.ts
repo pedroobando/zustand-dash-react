@@ -2,6 +2,7 @@ import { StateCreator, create } from 'zustand';
 import { devtools, persist } from 'zustand/middleware';
 import { customSessionStorage } from '../storages/session.storage';
 import { firebaseStorage } from '../storages/firebase.storage';
+import { useWenddingBoundStore } from '../wedding';
 
 interface PersonState {
   firstName: string;
@@ -39,3 +40,11 @@ export const usePersonStore = create<PersonState & Actions>()(
     })
   )
 );
+
+//* Esto hace un vinculo unidireccional entre diferentes store.
+//* Es decir todo lo que se actualiza en persona, se aplica a boda (nombre y apellido)
+usePersonStore.subscribe((nextState /*prevState*/) => {
+  const { firstName, lastName } = nextState;
+  useWenddingBoundStore.getState().setFirstName(firstName);
+  useWenddingBoundStore.getState().setLastName(lastName);
+});
